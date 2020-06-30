@@ -1,0 +1,36 @@
+---
+- name: Install pghero repository
+  yum_repository:
+    name: pghero
+    description: pghero
+    baseurl: https://dl.packager.io/srv/rpm/pghero/pghero/master/el/7/$basearch
+    gpgcheck: no
+    repo_gpgcheck: yes
+    gpgkey: https://dl.packager.io/srv/pghero/pghero/key
+
+- name: Install pghero
+  yum:
+    name: pghero
+    state: present
+
+- name: Install service
+  template:
+    dest: /usr/lib/systemd/system/pghero.service
+    src: templates/systemd.j2
+  notify:
+    - enable pghero
+    - restart pghero
+
+- name: Configure pghero
+  command: "pghero config:set {{ item }}"
+  args:
+    warn: False
+  notify: restart pghero
+  tags:
+    - skip_ansible_lint
+  loop:
+    - "PGHERO_USERNAME={{ pghero_username }}"
+    - "PGHERO_PASSWORD={{ pghero_password }}"
+    - "DATABASE_URL={{ pghero_database_url }}"
+    - "PORT={{ pghero_port }}"
+    - "RAILS_LOG_TO_STDOUT=disabled"

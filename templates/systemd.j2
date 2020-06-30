@@ -1,0 +1,16 @@
+[Unit]
+Description=pghero
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+User=pghero
+Group=pghero
+
+ExecStart=/usr/bin/pghero run web
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
