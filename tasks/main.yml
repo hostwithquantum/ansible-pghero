@@ -4,8 +4,8 @@
     name: pghero
     description: pghero
     baseurl: https://dl.packager.io/srv/rpm/pghero/pghero/master/el/7/$basearch
-    gpgcheck: no
-    repo_gpgcheck: yes
+    gpgcheck: false
+    repo_gpgcheck: true
     gpgkey: https://dl.packager.io/srv/pghero/pghero/key
 
 - name: Install pghero
@@ -24,7 +24,7 @@
 - name: Configure pghero
   command: "pghero config:set {{ item }}"
   args:
-    warn: False
+    warn: false
   notify: restart pghero
   tags:
     - skip_ansible_lint
