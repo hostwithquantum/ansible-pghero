@@ -1,8 +1,8 @@
 ---
+name: flake8
+
 on:
   pull_request:
-
-name: flake8
 
 jobs:
   lint:
