@@ -1,0 +1,27 @@
+---
+- name: Get current values
+  command: "pghero config:get {{ config_key }}"
+  ignore_errors: yes
+  changed_when: false
+  register: current_config
+  args:
+    warn: false
+  tags:
+    - skip_ansible_lint
+  loop: "{{ pghero_config.keys() | list }}"
+  loop_control:
+    loop_var: config_key
+
+- name: Configure pghero
+  command: "pghero config:set {{ config['config_key'] }}={{ pghero_config[config['config_key']] }}"
+  args:
+    warn: false
+  notify:
+    - restart pghero
+  tags:
+    - skip_ansible_lint
+  when:
+    - "config['stdout'] != (pghero_config[config['config_key']]|string)"
+  loop: "{{ current_config.results }}"
+  loop_control:
+    loop_var: config

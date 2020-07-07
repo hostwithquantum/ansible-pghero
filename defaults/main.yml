@@ -1,5 +1,7 @@
 ---
-pghero_database_url: ""
-pghero_username: ""
-pghero_password: ""
-pghero_port: 3001
+# This dictionairy maps 1:1 to `pghero config:set`
+pghero_config:
+  DATABASE_URL: ""
+  PGHERO_USERNAME: ""
+  PGHERO_PASSWORD: ""
+  PORT: "3001"

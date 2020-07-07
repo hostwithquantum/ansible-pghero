@@ -1,10 +1,4 @@
 ---
-- name: enable pghero
-  systemd:
-    name: pghero
-    daemon_reload: true
-    enabled: true
-
 - name: restart pghero
   systemd:
     name: pghero
