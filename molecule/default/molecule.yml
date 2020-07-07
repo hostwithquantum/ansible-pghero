@@ -1,0 +1,15 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: node-pghero
+    image: geerlingguy/docker-centos7-ansible:latest
+    pre_build_image: True
+    command: /sbin/init
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+provisioner:
+  name: ansible

@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: ansible-pghero
+      vars:
+        pghero_config:
+          PORT: 3001
+          DATABASE_URL: "postgres://bogus:bogus@127.0.0.1/?sslmode=disable"
+          PGHERO_USERNAME: "bogus"
+          PGHERO_PASSWORD: "bogus"

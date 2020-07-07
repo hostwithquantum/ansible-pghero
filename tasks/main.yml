@@ -11,26 +11,15 @@
 - name: Install pghero
   yum:
     name: pghero
+    disablerepo: "epel"
     state: present
 
-- name: Install service
-  template:
-    dest: /usr/lib/systemd/system/pghero.service
-    src: templates/systemd.j2
-  notify:
-    - enable pghero
-    - restart pghero
+# this generates all the unit files
+- name: Start pghero
+  command: pghero scale web=1
+  args:
+    creates: /etc/systemd/system/pghero-web.service
+    warn: false
 
 - name: Configure pghero
-  command: "pghero config:set {{ item }}"
-  args:
-    warn: false
-  notify: restart pghero
-  tags:
-    - skip_ansible_lint
-  loop:
-    - "PGHERO_USERNAME={{ pghero_username }}"
-    - "PGHERO_PASSWORD={{ pghero_password }}"
-    - "DATABASE_URL={{ pghero_database_url }}"
-    - "PORT={{ pghero_port }}"
-    - "RAILS_LOG_TO_STDOUT=disabled"
+  include_tasks: configure.yml
