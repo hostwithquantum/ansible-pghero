@@ -1,0 +1,25 @@
+---
+- name: Install pghero repository
+  yum_repository:
+    name: pghero
+    description: pghero
+    baseurl: https://dl.packager.io/srv/rpm/pghero/pghero/master/el/7/$basearch
+    gpgcheck: false
+    repo_gpgcheck: true
+    gpgkey: https://dl.packager.io/srv/pghero/pghero/key
+
+- name: Install pghero
+  yum:
+    name: pghero
+    disablerepo: "epel"
+    state: present
+
+# this generates all the unit files
+- name: Start pghero
+  command: pghero scale web=1
+  args:
+    creates: /etc/systemd/system/pghero-web.service
+    warn: false
+
+- name: Configure pghero
+  include_tasks: configure.yml

@@ -5,6 +5,7 @@
 Installs and configures pghero!
 
 ```
+pghero_target: RedHat
 # This dictionairy maps 1:1 to `pghero config:set`
 pghero_config:
   DATABASE_URL: ""
